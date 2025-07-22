@@ -38,9 +38,11 @@ function App() {
     if (player1Position === 100) {
       setWinner(1);
       setGameMessage('Player 1 wins!');
+      alert('Hurray player 1 won!');
     } else if (player2Position === 100) {
       setWinner(2);
       setGameMessage('Player 2 wins!');
+      alert('Hurray player 2 won!');
     }
   }, [player1Position, player2Position]);
 
@@ -137,7 +139,7 @@ function App() {
           );
         }
       } else {
-        // Odd rows (left to right)
+     
         for (let i = rowStart; i <= rowEnd; i++) {
           cells.push(
             <div 
@@ -175,14 +177,14 @@ function App() {
         <div className="board">
           {createBoardCells()}
           
-          {/* Snake images */}
+        
           <div className="snake snake-96"></div>
           <div className="snake snake-64"></div>
           <div className="snake snake-43"></div>
           <div className="snake snake-31"></div>
           <div className="snake snake-19"></div>
           
-          {/* Ladder images */}
+          
           <div className="ladder ladder-2"></div>
           <div className="ladder ladder-7"></div>
           <div className="ladder ladder-8"></div>
