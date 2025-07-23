@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import './App.css'; // Optional: for styling the board
+import './App.css';
+// Image is referenced in CSS
+// import boardImg from './assets/Snakes-and-ladders.jpeg';
+import Board from './Component/Board';
+import Dice from './Component/Dice';
+import DiceRollButton from './Component/DiceRollButton';
 
 const App = () => {
   // Game board size
@@ -7,29 +12,25 @@ const App = () => {
 
   // Snake positions: key = head, value = tail (player slides down)
   const snakes = {
-    16: 6,
-    47: 26,
-    49: 11,
-    56: 53,
+    17: 7,
+    54: 34,
     62: 19,
     64: 60,
     87: 24,
     93: 73,
     95: 75,
-    98: 78,
+    99: 78,
   };
 
   // Ladder positions: key = bottom, value = top (player climbs up)
   const ladders = {
-    1: 38,
     4: 14,
     9: 31,
-    21: 42,
+    20: 38,
     28: 84,
-    36: 44,
+    40: 59,
     51: 67,
-    71: 91,
-    80: 100,
+    63: 81,
   };
 
   // Game state
@@ -102,54 +103,7 @@ const App = () => {
     setWinner(null);
   };
 
-  // Render game board (simplified UI)
-  const renderBoard = () => {
-    const board = [];
-    let cellNum = BOARD_SIZE;
 
-    for (let row = 0; row < 10; row++) {
-      const rowCells = [];
-      const isEvenRow = row % 2 === 0;
-
-      const start = cellNum - 9;
-      const end = cellNum;
-      const step = 1;
-
-      // Create numbers left-to-right or right-to-left depending on row
-      const nums = isEvenRow
-        ? Array.from({ length: 10 }, (_, i) => end - i)
-        : Array.from({ length: 10 }, (_, i) => start + i);
-
-      nums.forEach((num) => {
-        const hasPlayer1 = positions.player1 === num;
-        const hasPlayer2 = positions.player2 === num;
-
-        rowCells.push(
-          <div
-            key={num}
-            className={`cell ${snakes[num] ? 'snake' : ''} ${
-              ladders[num] ? 'ladder' : ''
-            }`}
-          >
-            {num}
-            <div className="players">
-              {hasPlayer1 && <div className="player player1">P1</div>}
-              {hasPlayer2 && <div className="player player2">P2</div>}
-            </div>
-          </div>
-        );
-      });
-
-      board.push(
-        <div key={row} className="board-row">
-          {rowCells}
-        </div>
-      );
-      cellNum -= 10;
-    }
-
-    return board;
-  };
 
   return (
     <div className="app">
@@ -158,18 +112,21 @@ const App = () => {
       {/* Game Status */}
       <div className="status">
         <p>{gameMessage}</p>
-        {diceValue !== null && <p>Dice: {diceValue}</p>}
+        <Dice value={diceValue} />
       </div>
 
       {/* Game Board */}
-      <div className="board">{renderBoard()}</div>
+      <Board
+        positions={positions}
+        snakes={snakes}
+        ladders={ladders}
+        BOARD_SIZE={BOARD_SIZE}
+      />
 
       {/* Controls */}
       <div className="controls">
         {!winner && (
-          <button onClick={rollDice} disabled={!!winner}>
-            🎲 Roll Dice (Player {currentPlayer})
-          </button>
+          <DiceRollButton onRoll={rollDice} disabled={!!winner} currentPlayer={currentPlayer} />
         )}
         <button onClick={resetGame}>🔄 Reset Game</button>
       </div>

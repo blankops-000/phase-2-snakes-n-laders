@@ -1,104 +1,174 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+  color: #fff;
+  min-height: 100vh;
+  padding: 20px;
+}
+
 .app {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header {
   text-align: center;
-  font-family: Arial, sans-serif;
+  padding: 20px 0;
+  margin-bottom: 20px;
 }
 
-.board {
-  display: inline-block;
-  margin: 20px auto;
-  border: 2px solid #333;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #f0f0f0;
+header h1 {
+  font-size: 2.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(to right, #ffd700, #ff8c00);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.board-row {
+.game-container {
   display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
 }
 
-.cell {
-  width: 60px;
-  height: 60px;
-  border: 1px solid #a93636;
+.game-sidebar {
+  flex: 1;
+  min-width: 300px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.players-section h2 {
+  margin-bottom: 15px;
+  text-align: center;
+  color: #ffd700;
+}
+
+.reset-button {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: block;
+  margin: 20px auto 0;
+  width: 100%;
+  max-width: 200px;
+}
+
+.reset-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.board-section {
+  flex: 2;
+  min-width: 500px;
+  max-width: 600px;
+}
+
+.game-over-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.winner-card {
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  max-width: 90%;
+  width: 400px;
+}
+
+.winner-card h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #ffd700;
+}
+
+.winner-info {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  font-size: 12px;
-  position: relative;
-  background: rgb(114, 183, 232);
+  margin: 30px 0;
 }
 
-.cell.snake {
-  background: #e799a5;
-}
-
-.cell.ladder {
-  background: #30c83d;
-}
-
-.players {
-  position: absolute;
-  bottom: 2px;
-  display: flex;
-  gap: 2px;
-  width: 100%;
-  justify-content: center;
-}
-
-.player {
-  width: 20px;
-  height: 20px;
+.winner-token {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  font-size: 10px;
-  color: rgb(122, 30, 30);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: 3px solid white;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
 }
 
-.player1 {
-  background: red;
+.winner-card h3 {
+  font-size: 2rem;
+  margin-bottom: 30px;
 }
 
-.player2 {
-  background: blue;
-}
-
-.controls button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
+.play-again-button {
+  background: linear-gradient(to right, #00b09b, #96c93d);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.status {
-  margin: 20px;
-  font-size: 18px;
-  color: #333;
+.play-again-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.legend {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  font-size: 14px;
-}
-
-.legend-snake, .legend-ladder {
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  border-radius: 3px;
-}
-
-.legend-snake {
-  background: #ffebee;
-  border: 1px solid #c62828;
-}
-
-.legend-ladder {
-  background: #e8f5e9;
-  border: 1px solid #2e7d32;
+@media (max-width: 900px) {
+  .game-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .game-sidebar {
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .board-section {
+    min-width: 90%;
+    max-width: 90%;
+  }
+  
+  header h1 {
+    font-size: 2rem;
+  }
 }
