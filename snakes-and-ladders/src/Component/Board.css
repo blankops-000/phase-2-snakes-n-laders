@@ -1,0 +1,66 @@
+.board {
+  display: inline-block;
+  margin: 20px auto;
+  border: 2px solid #333;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f0f0f0;
+  background-image: url('../assets/Snakes-and-ladders.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.board-row {
+  display: flex;
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #a93636;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 12px;
+  opacity: 0.98;
+  position: relative;
+}
+.ladder-img {
+  z-index: 2;
+  left: -30px;
+  top: -30px;
+  width: 140px;
+  height: 140px;
+  opacity: 0.98;
+  position: absolute;
+}
+
+.players {
+  position: absolute;
+  bottom: 2px;
+  display: flex;
+  gap: 2px;
+  width: 100%;
+  justify-content: center;
+}
+
+.player {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 10px;
+  color: rgb(122, 30, 30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player1 {
+  background: red;
+}
+
+.player2 {
+  background: blue;
+}
