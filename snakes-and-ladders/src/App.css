@@ -39,21 +39,10 @@ header h1 {
   justify-content: center;
 }
 
-.game-sidebar {
-  flex: 1;
+.board-section {
+  flex: 2;
   min-width: 300px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.players-section h2 {
-  margin-bottom: 15px;
-  text-align: center;
-  color: #ffd700;
+  max-width: 600px;
 }
 
 .reset-button {
@@ -68,20 +57,14 @@ header h1 {
   transition: all 0.3s ease;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   display: block;
-  margin: 20px auto 0;
+  margin: 20px auto;
   width: 100%;
   max-width: 200px;
 }
 
-.reset-button:hover {
+.reset-button:hover:not(:disabled) {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-.board-section {
-  flex: 2;
-  min-width: 500px;
-  max-width: 600px;
 }
 
 .game-over-modal {
@@ -147,9 +130,28 @@ header h1 {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.play-again-button:hover {
+.play-again-button:hover:not(:disabled) {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.legend {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.legend-snake::before {
+  content: '🐍';
+  margin-right: 5px;
+}
+
+.legend-ladder::before {
+  content: '🪜';
+  margin-right: 5px;
 }
 
 @media (max-width: 900px) {
@@ -157,18 +159,33 @@ header h1 {
     flex-direction: column;
     align-items: center;
   }
-  
-  .game-sidebar {
-    width: 100%;
-    max-width: 500px;
-  }
-  
+
   .board-section {
     min-width: 90%;
     max-width: 90%;
   }
-  
+
   header h1 {
     font-size: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .winner-card {
+    padding: 20px;
+    width: 90%;
+  }
+
+  .winner-card h2 {
+    font-size: 2rem;
+  }
+
+  .winner-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .winner-token {
+    width: 50px;
+    height: 50px;
   }
 }
