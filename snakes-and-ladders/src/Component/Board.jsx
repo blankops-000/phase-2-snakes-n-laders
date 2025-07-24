@@ -1,26 +1,54 @@
-import React from 'react';
-import Player from './Player';
+import Cell from './Cell';
 import './Board.css';
+import boardBg from '../assets/Snakes-and-ladders.jpeg';
 
-const Board = ({ positions }) => {
-  const cells = [];
-  for (let i = 100; i > 0; i -= 10) {
-    const row = [];
-    for (let j = 0; j < 10; j++) {
-      const num = i - j;
-      row.push(
-        <div className="cell" key={num}>
-          <span className="cell-number">{num}</span>
-          {positions[0] === num && <Player color="red" />}
-          {positions[1] === num && <Player color="blue" />}
+const Board = ({ positions, snakes, ladders, BOARD_SIZE }) => {
+  const renderBoard = () => {
+    const board = [];
+    let cellNum = BOARD_SIZE;
+
+    for (let row = 0; row < 10; row++) {
+      const rowCells = [];
+      const isOddRow = row % 2 === 1;
+      const start = cellNum - 9;
+      const end = cellNum;
+      const nums = isOddRow
+        ? Array.from({ length: 10 }, (_, i) => start + i) // left-to-right
+        : Array.from({ length: 10 }, (_, i) => end - i);  // right-to-left
+
+      nums.forEach((num) => {
+        rowCells.push(
+          <Cell
+            key={num}
+            number={num}
+            hasPlayer1={positions.player1 === num}
+            hasPlayer2={positions.player2 === num}
+            isSnake={!!snakes[num]}
+            isLadder={!!ladders[num]}
+          />
+        );
+      });
+      board.push(
+        <div key={row} className="board-row">
+          {rowCells}
         </div>
       );
+      cellNum -= 10;
     }
-    if (Math.floor(i / 10) % 2 === 0) row.reverse();
-    cells.push(...row);
-  }
+    return board;
+  };
 
-  return <div className="board">{cells}</div>;
+  return (
+    <div
+      className="board"
+      style={{
+        backgroundImage: `url(${boardBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {renderBoard()}
+    </div>
+  );
 };
-
-export default Board;
