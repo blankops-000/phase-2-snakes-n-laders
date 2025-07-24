@@ -1,4 +1,3 @@
-import React from 'react';
 import Cell from './Cell';
 import './Board.css';
 import boardBg from '../assets/Snakes-and-ladders.jpeg';
