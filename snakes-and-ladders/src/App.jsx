@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
-// Image is referenced in CSS
-// import boardImg from './assets/Snakes-and-ladders.jpeg';
-import Board from './Component/Board';
-import Dice from './Component/Dice';
-import DiceRollButton from './Component/DiceRollButton';
+import GameBoard from './Component/GameBoard';
+import DiceRoller from './Component/DiceRoller';
+import GameStatus from './Component/GameStatus';
 
 const App = () => {
-  // Game board size
   const BOARD_SIZE = 100;
-
-  // Snake positions: key = head, value = tail (player slides down)
   const snakes = {
     17: 7,
     54: 34,
@@ -21,8 +16,6 @@ const App = () => {
     95: 75,
     99: 78,
   };
-
-  // Ladder positions: key = bottom, value = top (player climbs up)
   const ladders = {
     4: 14,
     9: 31,
@@ -33,27 +26,23 @@ const App = () => {
     63: 81,
   };
 
-  // Game state
   const [positions, setPositions] = useState({ player1: 1, player2: 1 });
-  const [currentPlayer, setCurrentPlayer] = useState(1); // 1 or 2
-  const [diceValue, setDiceValue] = useState(null);
+  const [currentPlayer, setCurrentPlayer] = useState(1);
   const [gameMessage, setGameMessage] = useState("🎲 Player 1's turn. Roll the dice!");
   const [winner, setWinner] = useState(null);
+  const [rolling, setRolling] = useState(false);
 
-  // Roll the dice (1-6)
-  const rollDice = () => {
-    if (winner) return;
-
-    const roll = Math.floor(Math.random() * 6) + 1;
-    setDiceValue(roll);
+  const rollDice = (roll) => {
+    if (winner || rolling) return;
+    setRolling(true);
 
     const playerKey = `player${currentPlayer}`;
     let newPosition = positions[playerKey] + roll;
 
-    // Check win condition
     if (newPosition > BOARD_SIZE) {
       setGameMessage(`🎯 Rolled ${roll}. Too high to move! Switching turn...`);
-      switchTurn();
+      setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
+      setRolling(false);
       return;
     }
 
@@ -61,78 +50,88 @@ const App = () => {
       setPositions((prev) => ({ ...prev, [playerKey]: newPosition }));
       setWinner(currentPlayer);
       setGameMessage(`🎉 Player ${currentPlayer} wins! 🏆`);
+      setRolling(false);
       return;
     }
 
-    // Check for ladders
     if (ladders[newPosition]) {
       newPosition = ladders[newPosition];
       setGameMessage(`✅ Player ${currentPlayer} hit a ladder! Climbed to ${newPosition}`);
-    }
-    // Check for snakes
-    else if (snakes[newPosition]) {
+    } else if (snakes[newPosition]) {
       newPosition = snakes[newPosition];
       setGameMessage(`🐍 Oops! Player ${currentPlayer} got bitten! Slid down to ${newPosition}`);
     } else {
       setGameMessage(`🎲 Player ${currentPlayer} moved to ${newPosition}`);
     }
 
-    // Update position
     setPositions((prev) => ({
       ...prev,
       [playerKey]: newPosition,
     }));
 
-    // Switch turn unless double rolled
     if (roll !== 6) {
-      switchTurn();
+      setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
     } else {
-      setGameMessage(prev => prev + " 🎉 Rolled a 6! Extra turn!");
+      setGameMessage((prev) => prev + " 🎉 Rolled a 6! Extra turn!");
     }
-  };
-
-  const switchTurn = () => {
-    setCurrentPlayer((prev) => (prev === 1 ? 2 : 1));
+    setRolling(false);
   };
 
   const resetGame = () => {
     setPositions({ player1: 1, player2: 1 });
     setCurrentPlayer(1);
-    setDiceValue(null);
     setGameMessage("🎲 Player 1's turn. Roll the dice!");
     setWinner(null);
+    setRolling(false);
   };
-
-
 
   return (
     <div className="app">
-      <h1>🐍 Snakes and Ladders</h1>
-
-      {/* Game Status */}
-      <div className="status">
-        <p>{gameMessage}</p>
-        <Dice value={diceValue} />
+      <header>
+        <h1>🐍 Snakes and Ladders</h1>
+      </header>
+      <div className="game-container">
+        <div className="board-section">
+          <GameBoard
+            playersPositions={positions}
+            snakes={snakes}
+            ladders={ladders}
+            currentPlayer={currentPlayer}
+          />
+          <GameStatus message={gameMessage} />
+          <DiceRoller onRoll={rollDice} disabled={!!winner || rolling} />
+          <button
+            className="reset-button"
+            onClick={resetGame}
+            aria-label="Reset the game"
+          >
+            🔄 Reset Game
+          </button>
+        </div>
       </div>
-
-      {/* Game Board */}
-      <Board
-        positions={positions}
-        snakes={snakes}
-        ladders={ladders}
-        BOARD_SIZE={BOARD_SIZE}
-      />
-
-      {/* Controls */}
-      <div className="controls">
-        {!winner && (
-          <DiceRollButton onRoll={rollDice} disabled={!!winner} currentPlayer={currentPlayer} />
-        )}
-        <button onClick={resetGame}>🔄 Reset Game</button>
-      </div>
-
-      {/* Legend */}
-      <div className="legend">
+      {winner && (
+        <div className="game-over-modal" role="dialog" aria-labelledby="winner-title">
+          <div className="winner-card">
+            <h2 id="winner-title">Game Over!</h2>
+            <div className="winner-info">
+              <div
+                className="winner-token"
+                style={{ backgroundColor: winner === 1 ? '#FF6B6B' : '#4ECDC4' }}
+                aria-hidden="true"
+              ></div>
+              <h3>Player {winner} Wins!</h3>
+            </div>
+            <button
+              className="play-again-button"
+              onClick={resetGame}
+              aria-label="Play again"
+            >
+              Play Again
+            </button>
+          </div>
+        </div>
+      )}
+      <div className="legend" aria-label="Game legend">
         <div><span className="legend-snake"></span> Snake</div>
         <div><span className="legend-ladder"></span> Ladder</div>
       </div>
