@@ -1,9 +1,30 @@
 import React from 'react';
 import './GameBoard.css';
+import snakeImg from '../assets/snake-straight.svg';
+import ladderImg from '../assets/ladder-transparent.svg';
 
 const BOARD_SIZE = 10;
 
 const GameBoard = ({ playersPositions, snakes, ladders, currentPlayer }) => {
+  // Calculate position and size for snakes and ladders
+  const calculateExtension = (start, end) => {
+    const startRow = Math.floor((start - 1) / 10);
+    const startCol = (start - 1) % 10;
+    const endRow = Math.floor((end - 1) / 10);
+    const endCol = (end - 1) % 10;
+    
+    const rowDiff = Math.abs(startRow - endRow);
+    const colDiff = Math.abs(startCol - endCol);
+    const distance = Math.sqrt(rowDiff * rowDiff + colDiff * colDiff);
+    
+    const angle = Math.atan2(endRow - startRow, endCol - startCol) * (180 / Math.PI);
+    
+    return {
+      width: Math.max(80, distance * 20) + '%',
+      height: Math.max(100, distance * 30) + '%',
+      rotation: angle
+    };
+  };
   const renderBoard = () => {
     const cells = [];
     
@@ -23,22 +44,47 @@ const GameBoard = ({ playersPositions, snakes, ladders, currentPlayer }) => {
             key={cellNumber} 
             className={`board-cell ${cellNumber === 100 ? 'finish' : ''} ${
               snakes[cellNumber] ? 'snake' : ''
-            } ${ladders[cellNumber] ? 'ladder' : ''}`}
+            } ${ladders[cellNumber] ? 'ladder' : ''} ${
+              cellNumber % 2 === 0 ? 'even' : 'odd'
+            }`}
+            data-cell={cellNumber}
             aria-label={`Cell ${cellNumber}${snakes[cellNumber] ? ', snake to ' + snakes[cellNumber] : ''}${ladders[cellNumber] ? ', ladder to ' + ladders[cellNumber] : ''}`}
           >
             <span className="cell-number">{cellNumber}</span>
             
-            {snakes[cellNumber] && (
-              <div className="snake-icon" title={`Snake to ${snakes[cellNumber]}`}>
-                🐍
-              </div>
-            )}
+            {snakes[cellNumber] && (() => {
+              const extension = calculateExtension(cellNumber, snakes[cellNumber]);
+              return (
+                <img 
+                  src={snakeImg} 
+                  alt={`Snake to ${snakes[cellNumber]}`}
+                  className="snake-icon"
+                  title={`Snake to ${snakes[cellNumber]}`}
+                  style={{
+                    width: extension.width,
+                    height: extension.height,
+                    transform: `translate(-50%, -50%) rotate(${extension.rotation}deg)`
+                  }}
+                />
+              );
+            })()}
             
-            {ladders[cellNumber] && (
-              <div className="ladder-icon" title={`Ladder to ${ladders[cellNumber]}`}>
-                🪜
-              </div>
-            )}
+            {ladders[cellNumber] && (() => {
+              const extension = calculateExtension(cellNumber, ladders[cellNumber]);
+              return (
+                <img 
+                  src={ladderImg} 
+                  alt={`Ladder to ${ladders[cellNumber]}`}
+                  className="ladder-icon"
+                  title={`Ladder to ${ladders[cellNumber]}`}
+                  style={{
+                    width: extension.width,
+                    height: extension.height,
+                    transform: `translate(-50%, -50%) rotate(${extension.rotation + 90}deg)`
+                  }}
+                />
+              );
+            })()}
             
             {playersOnCell.map(playerId => (
               <div 
