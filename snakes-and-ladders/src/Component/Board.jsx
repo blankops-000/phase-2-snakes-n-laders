@@ -1,6 +1,5 @@
-import Cell from './Cell';
+import React from 'react';
 import './Board.css';
-import boardBg from '../assets/Snakes-and-ladders.jpeg';
 
 const Board = ({ positions, snakes, ladders, BOARD_SIZE }) => {
   const renderBoard = () => {
@@ -18,14 +17,16 @@ const Board = ({ positions, snakes, ladders, BOARD_SIZE }) => {
 
       nums.forEach((num) => {
         rowCells.push(
-          <Cell
+          <div
             key={num}
-            number={num}
-            hasPlayer1={positions.player1 === num}
-            hasPlayer2={positions.player2 === num}
-            isSnake={!!snakes[num]}
-            isLadder={!!ladders[num]}
-          />
+            className={`cell ${snakes[num] ? 'snake' : ''} ${ladders[num] ? 'ladder' : ''}`}
+          >
+            {num}
+            <div className="players">
+              {positions.player1 === num && <div className="player player1">P1</div>}
+              {positions.player2 === num && <div className="player player2">P2</div>}
+            </div>
+          </div>
         );
       });
       board.push(
@@ -39,16 +40,10 @@ const Board = ({ positions, snakes, ladders, BOARD_SIZE }) => {
   };
 
   return (
-    <div
-      className="board"
-      style={{
-        backgroundImage: `url(${boardBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
+    <div className="board">
       {renderBoard()}
     </div>
   );
 };
+
+export default Board;

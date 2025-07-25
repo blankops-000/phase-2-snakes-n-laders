@@ -7,23 +7,25 @@ import GameStatus from './Component/GameStatus';
 const App = () => {
   const BOARD_SIZE = 100;
   const snakes = {
-    17: 7,
-    54: 34,
+    16: 6,
+    47: 26,
+    49: 11,
+    56: 53,
     62: 19,
-    64: 60,
     87: 24,
     93: 73,
     95: 75,
-    99: 78,
+    98: 78,
   };
   const ladders = {
+    1: 38,
     4: 14,
-    9: 31,
-    20: 38,
+    9: 21,
     28: 84,
-    40: 59,
+    36: 44,
     51: 67,
-    63: 81,
+    71: 91,
+    80: 100,
   };
 
   const [positions, setPositions] = useState({ player1: 1, player2: 1 });

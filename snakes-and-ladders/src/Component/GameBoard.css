@@ -13,7 +13,6 @@
 }
 
 .board-cell {
-  background: rgba(255, 255, 255, 0.1);
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -21,6 +20,14 @@
   position: relative;
   transition: all 0.2s ease;
   min-height: 8vmin;
+}
+
+.board-cell.even {
+  background: #9ACD32;
+}
+
+.board-cell.odd {
+  background: #FFFF00;
 }
 
 .board-cell:hover {
@@ -32,13 +39,13 @@
   background: linear-gradient(135deg, #ffd700, #ff8c00);
 }
 
-.board-cell.snake {
+/* .board-cell.snake {
   background: rgba(255, 107, 107, 0.2);
-}
+} */
 
-.board-cell.ladder {
-  background: rgba(78, 205, 196, 0.2);
-}
+/* .board-cell.ladder {
+  background: transparent; */
+/* } */
 
 .cell-number {
   position: absolute;
@@ -50,20 +57,86 @@
 
 .snake-icon, .ladder-icon {
   position: absolute;
-  font-size: 1rem;
+  width: 140%;
+  height: 140%;
+  object-fit: contain;
   opacity: 0.8;
+  pointer-events: none;
 }
 
 .snake-icon {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(-10deg);
+  z-index: 1;
+}
+
+/* Two-cell snakes */
+.board-cell:nth-child(17) .snake-icon,
+.board-cell:nth-child(54) .snake-icon,
+.board-cell:nth-child(95) .snake-icon {
+  width: 200%;
+  height: 200%;
+}
+
+/* Three-cell snakes */
+.board-cell:nth-child(62) .snake-icon,
+.board-cell:nth-child(87) .snake-icon,
+.board-cell:nth-child(93) .snake-icon {
+  width: 280%;
+  height: 280%;
+}
+
+/* Special long snake from 99 to 78 */
+.board-cell:nth-child(99) .snake-icon {
+  width: 400%;
+  height: 200%;
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .ladder-icon {
+  background: none;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(30deg);
+  width: 70%;
+  z-index: 1;
+}
+
+/* Ladder heights based on distance */
+/* 4 to 14 (10 cells) */
+.board-cell:nth-child(4) .ladder-icon {
+  height: 300%;
+}
+
+/* 9 to 31 (22 cells) */
+.board-cell:nth-child(9) .ladder-icon {
+  height: 500%;
+}
+
+/* 20 to 38 (18 cells) */
+.board-cell:nth-child(20) .ladder-icon {
+  height: 450%;
+}
+
+/* 28 to 84 (56 cells) - longest ladder */
+.board-cell:nth-child(28) .ladder-icon {
+  height: 800%;
+}
+
+/* 40 to 59 (19 cells) */
+.board-cell:nth-child(40) .ladder-icon {
+  height: 460%;
+}
+
+/* 51 to 67 (16 cells) */
+.board-cell:nth-child(51) .ladder-icon {
+  height: 400%;
+}
+
+/* 63 to 81 (18 cells) */
+.board-cell:nth-child(63) .ladder-icon {
+  height: 450%;
 }
 
 .player-token {
@@ -74,7 +147,7 @@
   z-index: 2;
   border: 2px solid white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  transition: all 0.5s ease; /* Smooth movement */
+  transition: all 0.5s ease;
 }
 
 .player-token:nth-child(2) {
@@ -87,7 +160,7 @@
   }
   
   .board-cell {
-    min-height: 7vmin;
+    min-height: 20vmin;
   }
   
   .player-token {
@@ -99,8 +172,65 @@
     font-size: 0.6rem;
   }
 
-  .snake-icon, .ladder-icon {
-    font-size: 0.8rem;
+  .snake-icon {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Mobile two-cell snakes */
+  .board-cell:nth-child(17) .snake-icon,
+  .board-cell:nth-child(54) .snake-icon,
+  .board-cell:nth-child(95) .snake-icon {
+    width: 150%;
+    height: 150%;
+  }
+  
+  /* Mobile three-cell snakes */
+  .board-cell:nth-child(62) .snake-icon,
+  .board-cell:nth-child(87) .snake-icon,
+  .board-cell:nth-child(93) .snake-icon {
+    width: 200%;
+    height: 200%;
+  }
+  
+  /* Mobile long snake from 99 to 78 */
+  .board-cell:nth-child(99) .snake-icon {
+    width: 300%;
+    height: 150%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+  
+  .ladder-icon {
+    width: 150%;
+  }
+  
+  /* Mobile ladder heights */
+  .board-cell:nth-child(4) .ladder-icon {
+    height: 200%;
+  }
+  
+  .board-cell:nth-child(9) .ladder-icon {
+    height: 300%;
+  }
+  
+  .board-cell:nth-child(20) .ladder-icon {
+    height: 280%;
+  }
+  
+  .board-cell:nth-child(28) .ladder-icon {
+    height: 500%;
+  }
+  
+  .board-cell:nth-child(40) .ladder-icon {
+    height: 290%;
+  }
+  
+  .board-cell:nth-child(51) .ladder-icon {
+    height: 250%;
+  }
+  
+  .board-cell:nth-child(63) .ladder-icon {
+    height: 280%;
   }
 }
 
@@ -113,11 +243,4 @@
     width: 2vmin;
     height: 2vmin;
   }
-}
-.game-board {
-  /* ... */
-  background-image: url('../assets/Snakes-and-ladders.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
