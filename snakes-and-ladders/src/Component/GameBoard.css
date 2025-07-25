@@ -1,84 +1,28 @@
 .game-board {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
-  gap: 2px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  padding: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  aspect-ratio: 1/1;
+  position: relative;
   max-width: 600px;
   margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
-.board-cell {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  transition: all 0.2s ease;
-  min-height: 8vmin;
+.board-image {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-.board-cell:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.05);
-}
 
-.board-cell.finish {
-  background: linear-gradient(135deg, #ffd700, #ff8c00);
-}
-
-.board-cell.snake {
-  background: rgba(255, 107, 107, 0.2);
-}
-
-.board-cell.ladder {
-  background: rgba(78, 205, 196, 0.2);
-}
-
-.cell-number {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  font-size: 0.8rem;
-  opacity: 0.7;
-}
-
-.snake-icon, .ladder-icon {
-  position: absolute;
-  font-size: 1rem;
-  opacity: 0.8;
-}
-
-.snake-icon {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.ladder-icon {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 
 .player-token {
-  width: 3vmin;
-  height: 3vmin;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  position: absolute;
-  z-index: 2;
   border: 2px solid white;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  transition: all 0.5s ease; /* Smooth movement */
-}
-
-.player-token:nth-child(2) {
-  transform: translate(5px, 5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  transition: all 0.5s ease;
+  z-index: 10;
 }
 
 @media (max-width: 600px) {
@@ -86,38 +30,15 @@
     max-width: 90vw;
   }
   
-  .board-cell {
-    min-height: 7vmin;
-  }
-  
   .player-token {
-    width: 2.5vmin;
-    height: 50vh;
-  }
-  
-  .cell-number {
-    font-size: 0.6rem;
-  }
-
-  .snake-icon, .ladder-icon {
-    font-size: 0.8rem;
+    width: 15px;
+    height: 15px;
   }
 }
 
 @media (max-width: 400px) {
-  .board-cell {
-    min-height: 6vmin;
-  }
-  
   .player-token {
-    width: 2vmin;
-    height: 2vmin;
+    width: 12px;
+    height: 12px;
   }
-}
-.game-board {
-  /* ... */
-  background-image: url('../assets/Snakes-and-ladders.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }

@@ -3,30 +3,36 @@ import './App.css';
 import GameBoard from './Component/GameBoard';
 import DiceRoller from './Component/DiceRoller';
 import GameStatus from './Component/GameStatus';
+import Instructions from './Component/Instructions';
+import LoginPage from './Component/LoginPage';
 
 const App = () => {
   
   const BOARD_SIZE = 100
   
   const snakes = {
-    17: 7,
-    54: 34,
+    16: 6,
+    46: 25,
+    49: 11,
     62: 19,
     64: 60,
-    87: 24,
-    93: 73,
+    74: 53,
+    89: 68,
+    92: 88,
     95: 75,
-    99: 78,
+    99: 80,
   };
   
   const ladders = {
-    4: 14,
-    9: 31,
-    20: 38,
-    28: 84,
-    40: 59,
+   2: 38,
+   7: 14,
+   8: 31,
+   15: 26,
+   28: 84,
+    36: 44,
     51: 67,
-    63: 81,
+    78: 98,
+    87: 94,
   };
 
   
@@ -99,10 +105,39 @@ const App = () => {
     setRolling(false)
   };
 
+  const startGame = () => {
+    setGameStarted(true);
+  };
+
+  const backToLogin = () => {
+    setGameStarted(false);
+    resetGame();
+  };
+
+  if (!gameStarted) {
+    return <LoginPage onStartGame={startGame} />;
+  }
+
   return (
     <div className="app">
       <header>
         <h1>🐍 Snakes and Ladders</h1>
+        <div className="header-buttons">
+          <button 
+            className="instructions-button"
+            onClick={() => setShowInstructions(true)}
+            aria-label="Show game instructions"
+          >
+            📖 How to Play
+          </button>
+          <button 
+            className="back-button"
+            onClick={backToLogin}
+            aria-label="Back to main menu"
+          >
+            🏠 Main Menu
+          </button>
+        </div>
       </header>
       <div className="game-container">
         <div className="board-section">
@@ -149,6 +184,9 @@ const App = () => {
         <div><span className="legend-snake"></span> Snake</div>
         <div><span className="legend-ladder"></span> Ladder</div>
       </div>
+      {showInstructions && (
+        <Instructions onClose={() => setShowInstructions(false)} />
+      )}
     </div>
   )
 }

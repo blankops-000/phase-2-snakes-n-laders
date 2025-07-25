@@ -1,0 +1,188 @@
+.instructions-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.instructions-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.instructions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 30px 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.instructions-header h2 {
+  font-size: 1.8rem;
+  margin: 0;
+  color: #ffd700;
+}
+
+.close-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.instructions-content {
+  padding: 20px 30px;
+}
+
+.instructions-content section {
+  margin-bottom: 25px;
+}
+
+.instructions-content h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: #ffd700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.instructions-content p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.instructions-content ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.instructions-content li {
+  margin-bottom: 8px;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.instructions-content li::before {
+  content: '•';
+  color: #ffd700;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.special-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.special-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.special-item .icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.special-item strong {
+  color: #ffd700;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.special-item small {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.instructions-footer {
+  padding: 20px 30px 30px;
+  text-align: center;
+}
+
+.got-it-button {
+  background: linear-gradient(to right, #00b09b, #96c93d);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.got-it-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 600px) {
+  .instructions-modal {
+    padding: 10px;
+  }
+  
+  .instructions-card {
+    max-height: 95vh;
+  }
+  
+  .instructions-header {
+    padding: 20px 20px 15px;
+  }
+  
+  .instructions-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .instructions-content {
+    padding: 15px 20px;
+  }
+  
+  .special-items {
+    gap: 10px;
+  }
+  
+  .special-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .instructions-footer {
+    padding: 15px 20px 20px;
+  }
+}
