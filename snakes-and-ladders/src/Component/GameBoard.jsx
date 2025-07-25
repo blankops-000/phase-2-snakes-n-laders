@@ -8,22 +8,22 @@ const GameBoard = ({ playersPositions, snakes, ladders, currentPlayer }) => {
     const cells = [];
     
     for (let row = BOARD_SIZE - 1; row >= 0; row--) {
-      const rowCells = [];
-      
       for (let col = 0; col < BOARD_SIZE; col++) {
-        const displayCol = row % 2 === 0 ? col : BOARD_SIZE - 1 - col;
+        const displayCol = row % 2 === 0 ? BOARD_SIZE - 1 - col : col;
         const cellNumber = row * BOARD_SIZE + displayCol + 1;
         
         const playersOnCell = Object.entries(playersPositions)
           .filter(([_, position]) => position === cellNumber)
           .map(([playerId]) => playerId);
         
-        rowCells.push(
+        cells.push(
           <div 
             key={cellNumber} 
             className={`board-cell ${cellNumber === 100 ? 'finish' : ''} ${
               snakes[cellNumber] ? 'snake' : ''
-            } ${ladders[cellNumber] ? 'ladder' : ''}`}
+            } ${ladders[cellNumber] ? 'ladder' : ''} ${
+              cellNumber % 2 === 0 ? 'cell-blue' : 'cell-pink'
+            }`}
             aria-label={`Cell ${cellNumber}${snakes[cellNumber] ? ', snake to ' + snakes[cellNumber] : ''}${ladders[cellNumber] ? ', ladder to ' + ladders[cellNumber] : ''}`}
           >
             <span className="cell-number">{cellNumber}</span>
@@ -43,9 +43,9 @@ const GameBoard = ({ playersPositions, snakes, ladders, currentPlayer }) => {
             {playersOnCell.map(playerId => (
               <div 
                 key={playerId}
-                className="player-token"
+                className={`player-token ${playerId === currentPlayer ? 'active' : ''}`}
                 style={{ 
-                  backgroundColor: playerId === '1' ? '#FF6B6B' : '#4ECDC4'
+                  backgroundColor: playerId === '1' ? 'purple' : '#36c9ff'
                 }}
                 title={`Player ${playerId}${playerId == currentPlayer ? ' (current)' : ''}`}
                 aria-label={`Player ${playerId}${playerId == currentPlayer ? ' (current player)' : ''}`}
@@ -54,8 +54,6 @@ const GameBoard = ({ playersPositions, snakes, ladders, currentPlayer }) => {
           </div>
         );
       }
-      
-      cells.push(...rowCells);
     }
     
     return cells;
