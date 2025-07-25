@@ -3,7 +3,7 @@ import './App.css';
 import GameBoard from './Component/GameBoard';
 import DiceRoller from './Component/DiceRoller';
 import GameStatus from './Component/GameStatus';
-import Instructions from './Component/Instructions';
+
 import LoginPage from './Component/LoginPage';
 
 const App = () => {
@@ -37,7 +37,7 @@ const App = () => {
   const [gameMessage, setGameMessage] = useState("🎲 Player 1's turn. Roll the dice!");
   const [winner, setWinner] = useState(null);
   const [rolling, setRolling] = useState(false);
-  const [showInstructions, setShowInstructions] = useState(false);
+
   const [gameStarted, setGameStarted] = useState(false);
 
   const rollDice = (roll) => {
@@ -110,22 +110,13 @@ const App = () => {
     <div className="app">
       <header>
         <h1>🐍 Snakes and Ladders</h1>
-        <div className="header-buttons">
-          <button 
-            className="instructions-button"
-            onClick={() => setShowInstructions(true)}
-            aria-label="Show game instructions"
-          >
-            📖 How to Play
-          </button>
-          <button 
-            className="back-button"
-            onClick={backToLogin}
-            aria-label="Back to main menu"
-          >
-            🏠 Main Menu
-          </button>
-        </div>
+        <button 
+          className="back-button"
+          onClick={backToLogin}
+          aria-label="Back to main menu"
+        >
+          🏠 Main Menu
+        </button>
       </header>
       <div className="game-container">
         <div className="board-section">
@@ -172,9 +163,7 @@ const App = () => {
         <div><span className="legend-snake"></span> Snake</div>
         <div><span className="legend-ladder"></span> Ladder</div>
       </div>
-      {showInstructions && (
-        <Instructions onClose={() => setShowInstructions(false)} />
-      )}
+
     </div>
   );
 };
