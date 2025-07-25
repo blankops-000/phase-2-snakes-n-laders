@@ -3,29 +3,33 @@ import './App.css';
 import GameBoard from './Component/GameBoard';
 import DiceRoller from './Component/DiceRoller';
 import GameStatus from './Component/GameStatus';
+import Instructions from './Component/Instructions';
+import LoginPage from './Component/LoginPage';
 
 const App = () => {
   const BOARD_SIZE = 100;
   const snakes = {
     16: 6,
-    47: 26,
+    46: 25,
     49: 11,
-    56: 53,
     62: 19,
-    87: 24,
-    93: 73,
+    64: 60,
+    74: 53,
+    89: 68,
+    92: 88,
     95: 75,
-    98: 78,
+    99: 80,
   };
   const ladders = {
-    1: 38,
-    4: 14,
-    9: 21,
-    28: 84,
+   2: 38,
+   7: 14,
+   8: 31,
+   15: 26,
+   28: 84,
     36: 44,
     51: 67,
-    71: 91,
-    80: 100,
+    78: 98,
+    87: 94,
   };
 
   const [positions, setPositions] = useState({ player1: 1, player2: 1 });
@@ -33,6 +37,8 @@ const App = () => {
   const [gameMessage, setGameMessage] = useState("🎲 Player 1's turn. Roll the dice!");
   const [winner, setWinner] = useState(null);
   const [rolling, setRolling] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
 
   const rollDice = (roll) => {
     if (winner || rolling) return;
@@ -87,10 +93,39 @@ const App = () => {
     setRolling(false);
   };
 
+  const startGame = () => {
+    setGameStarted(true);
+  };
+
+  const backToLogin = () => {
+    setGameStarted(false);
+    resetGame();
+  };
+
+  if (!gameStarted) {
+    return <LoginPage onStartGame={startGame} />;
+  }
+
   return (
     <div className="app">
       <header>
         <h1>🐍 Snakes and Ladders</h1>
+        <div className="header-buttons">
+          <button 
+            className="instructions-button"
+            onClick={() => setShowInstructions(true)}
+            aria-label="Show game instructions"
+          >
+            📖 How to Play
+          </button>
+          <button 
+            className="back-button"
+            onClick={backToLogin}
+            aria-label="Back to main menu"
+          >
+            🏠 Main Menu
+          </button>
+        </div>
       </header>
       <div className="game-container">
         <div className="board-section">
@@ -137,6 +172,9 @@ const App = () => {
         <div><span className="legend-snake"></span> Snake</div>
         <div><span className="legend-ladder"></span> Ladder</div>
       </div>
+      {showInstructions && (
+        <Instructions onClose={() => setShowInstructions(false)} />
+      )}
     </div>
   );
 };
