@@ -7,8 +7,7 @@ import Instructions from './Component/Instructions';
 import LoginPage from './Component/LoginPage';
 
 const App = () => {
-  
-  const BOARD_SIZE = 100
+  const BOARD_SIZE = 100;
   
   const snakes = {
     16: 6,
@@ -24,85 +23,69 @@ const App = () => {
   };
   
   const ladders = {
-   2: 38,
-   7: 14,
-   8: 31,
-   15: 26,
-   28: 84,
+    2: 38,
+    7: 14,
+    8: 31,
+    15: 26,
+    28: 84,
     36: 44,
     51: 67,
     78: 98,
     87: 94,
   };
 
-  
-  const [positions, setPositions] = useState({ player1: 1, player2: 1 })
-  
-  const [currentPlayer, setCurrentPlayer] = useState(1)
-  
-  const [gameMessage, setGameMessage] = useState("🎲 Player 1's turn. Roll the dice!")
-  
-  const [winner, setWinner] = useState(null)
-  
-  const [rolling, setRolling] = useState(false)
+  const [positions, setPositions] = useState({ player1: 1, player2: 1 });
+  const [currentPlayer, setCurrentPlayer] = useState(1);
+  const [gameMessage, setGameMessage] = useState("");
+  const [winner, setWinner] = useState(null);
+  const [rolling, setRolling] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
-  
   const handleDiceRoll = (roll) => {
-    if (winner || rolling) return 
-    setRolling(true)
+    if (winner || rolling) return;
+    setRolling(true);
 
-    const playerKey = `player${currentPlayer}`
-    let newPosition = positions[playerKey] + roll
+    const playerKey = `player${currentPlayer}`;
+    let newPosition = positions[playerKey] + roll;
 
-    
     if (newPosition > BOARD_SIZE) {
-      setGameMessage(`🎯 Rolled ${roll}. Too high to move! Switching turn...`)
-      setCurrentPlayer(currentPlayer === 1 ? 2 : 1)
-      setRolling(false)
-      return
+      setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
+      setRolling(false);
+      return;
     }
 
-    
     if (newPosition === BOARD_SIZE) {
       setPositions((prev) => ({ ...prev, [playerKey]: newPosition }));
-      setWinner(currentPlayer)
-      setGameMessage(`🎉 Player ${currentPlayer} wins! `)
-      setRolling(false)
-      return
+      setWinner(currentPlayer);
+      setGameMessage(`🎉 Player ${currentPlayer} wins! 🏆`);
+      setRolling(false);
+      return;
     }
 
-    
     if (ladders[newPosition]) {
-      newPosition = ladders[newPosition]
-      setGameMessage(`✅ Player ${currentPlayer} climbed a ladder to ${newPosition}!`)
+      newPosition = ladders[newPosition];
     } else if (snakes[newPosition]) {
-      newPosition = snakes[newPosition]
-      setGameMessage(`🐍 Player ${currentPlayer} got bitten! Slid down to ${newPosition}.`)
-    } else {
-      setGameMessage(`🎲 Player ${currentPlayer} moved to ${newPosition}.`)
+      newPosition = snakes[newPosition];
     }
 
     setPositions((prev) => ({
       ...prev,
       [playerKey]: newPosition
-    }))
+    }));
 
-    
     if (roll !== 6) {
-      setCurrentPlayer(currentPlayer === 1 ? 2 : 1)
-    } else {
-      setGameMessage((prev) => prev + " 🎉 Rolled a 6! Extra turn!")
+      setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
     }
-    setRolling(false)
+    setRolling(false);
   };
 
-  
   const resetGame = () => {
-    setPositions({ player1: 1, player2: 1 })
-    setCurrentPlayer(1)
-    setGameMessage("🎲 Player 1's turn. Roll the dice!")
-    setWinner(null)
-    setRolling(false)
+    setPositions({ player1: 1, player2: 1 });
+    setCurrentPlayer(1);
+    setGameMessage("");
+    setWinner(null);
+    setRolling(false);
   };
 
   const startGame = () => {
@@ -139,6 +122,7 @@ const App = () => {
           </button>
         </div>
       </header>
+      
       <div className="game-container">
         <div className="board-section">
           <GameBoard
@@ -158,6 +142,7 @@ const App = () => {
           </button>
         </div>
       </div>
+      
       {winner && (
         <div className="game-over-modal" role="dialog" aria-labelledby="winner-title">
           <div className="winner-card">
@@ -180,6 +165,7 @@ const App = () => {
           </div>
         </div>
       )}
+      
       <div className="legend" aria-label="Game legend">
         <div><span className="legend-snake"></span> Snake</div>
         <div><span className="legend-ladder"></span> Ladder</div>
@@ -188,7 +174,7 @@ const App = () => {
         <Instructions onClose={() => setShowInstructions(false)} />
       )}
     </div>
-  )
-}
+  );
+};
 
 export default App;
