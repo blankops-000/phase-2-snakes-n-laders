@@ -22,12 +22,12 @@ const GameBoard = ({ playersPositions, snakes, ladders, currentPlayer }) => {
   return (
     <div className="game-board" role="grid" aria-label="Snakes and Ladders board">
       <img src={boardImage} alt="Snakes and Ladders Board" className="board-image" />
-      {Object.entries(playersPositions).map(([playerId, position]) => (
+      {Object.keys(playersPositions).map((playerId) => (
         <div 
           key={playerId}
           className="player-token"
           style={{
-            ...getPositionStyle(position),
+            ...getPositionStyle(playersPositions[playerId]),
             backgroundColor: playerId === 'player1' ? '#FF6B6B' : '#4ECDC4'
           }}
           title={`Player ${playerId.slice(-1)}${playerId === `player${currentPlayer}` ? ' (current)' : ''}`}
